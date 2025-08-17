@@ -44,6 +44,7 @@ jobs:
           -Dsonar.host.url=${{ vars.SONAR_HOST_URL }}
           -Dsonar.token=${{ secrets.SONAR_TOKEN }}
   build_docker_image_and_push:
+      if: false
       runs-on: ubuntu-latest
       needs: sonar_scan
       steps:
@@ -67,7 +68,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [sonar_scan, security-check, build_docker_image_and_push]
+    needs: [sonar_scan, security-check]
     steps:
       - name: SSH into EC2 and Deploy Docker Containers
         uses: appleboy/ssh-action@v0.1.10
