@@ -95,7 +95,13 @@ jobs:
   
             # Running Food Donation App container
             echo "🔹 Running Food Donation App container..."
-            sudo docker run -d --name food-donation-app --link mongodb:mongo --env-file .env -p 5000:5000 ronaldop/feeding-hope:latest
+            sudo docker run -d --name food-donation-app \
+            --link mongodb:mongo \
+            -e MONGO_URI=mongodb://mongo:27017/feedinghope \
+            -e NODE_ENV=production \
+            -e API_KEY=${{ secrets.MONGO_URI }} \
+            -p 5000:5000 ronaldop/feeding-hope:latest
+
   
             # Running Prometheus container
             echo "🔹 Running Prometheus container..."
